@@ -52,7 +52,6 @@ class Car extends MegaCenter implements CarAndProduct
 			$this->power=$power;
 			$this->color=$color;
 		}
-
 		public function  ForCarAndProduct($price)
 		{
 			echo $price;
@@ -64,6 +63,7 @@ class Car extends MegaCenter implements CarAndProduct
  */
 class Product extends MegaCenter implements CarAndProduct
 {
+	public $price;
 	public $currency;
 	
 	function __construct($name, $currency)
@@ -75,7 +75,7 @@ class Product extends MegaCenter implements CarAndProduct
 	public function  ForCarAndProduct($price)
 		{
 			if ($this->currency=='$') {
-				echo $this->$price*63;
+				echo $this->price*63;
 			} else {
 				echo $price;
 			}
