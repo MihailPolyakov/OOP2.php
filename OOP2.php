@@ -75,7 +75,7 @@ class Product extends MegaCenter implements CarAndProduct
 	public function  ForCarAndProduct($price)
 		{
 			if ($this->currency=='$') {
-				echo $this->price*63;
+				echo $price*63;
 			} else {
 				echo $price;
 			}
