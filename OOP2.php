@@ -153,10 +153,13 @@ class Pen extends MegaCenter implements forPen
 	$this->sale = $sale;
     }	
     public function ForPen($type)
-    {?>
-	<p>Хотите узнать больше о вашей ручке, то вам <a href = URL"https://ru.wikipedia.org/wiki/%D0%A0%D1%83%D1%87%D0%BA%D0%B0_(%D0%BA%D0%B0%D0%BD%D1%86%D0%B5%D0%BB%D1%8F%D1%80%D0%B8%D1%8F)>сюда</a> </p>
+    {
+	public function ForPen($type)
+        {
+	    echo "Хотите узнать больше о вашей ручке, то вам" . ' ' . "<a href = URL\"https://ru.wikipedia.org/wiki/%D0%A0%D1%83%D1%87%D0%BA%D0%B0_(%D0%BA%D0%B0%D0%BD%D1%86%D0%B5%D0%BB%D1%8F%D1%80%D0%B8%D1%8F)>сюда</a>";
 
-<?php }
+        }
+    }
 }
 
 $mers = new Car('Mercedes', '250km/h', 'black', 100000, 5);
