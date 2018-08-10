@@ -15,69 +15,79 @@
 class MegaCenter
 {
 	public $name;
+	public $price;
+	public $sale;
+	public function GetPrice()
+	{
+		return $this->price = $this->price * (1 - ($this->sale / 100));
+	}
 }
 
-interface CarAndProduct
+interface forCar
 {
-	public function ForCarAndProduct($price);
+	public function ForCar($powerhp);
+}
+
+interface forProduct
+{
+	public function ForProduct($currency);
 }
 
 interface forTV
 {
-	public function ForTv($price, $diagonal);
+	public function ForTv($name);
 }
 
 interface forDuck
 {
-	public function ForDuck($color, $weight);
+	public function ForDuck($weight);
 }
 
 interface forPen
 {
-	public function ForPen($country, $name);
+	public function ForPen($type);
 }
 
 
 
-class Car extends MegaCenter implements CarAndProduct
+class Car extends MegaCenter implements forCar
 {
 	public $color;
 	public $maxspeed;
-	public $power;
 		
-		public function __construct($name, $maxspeed, $power, $color)
+		public function __construct($name, $maxspeed, $color, $price, $sale)
 		{
-			$this->name=$name;
-			$this->maxspeed=$maxspeed;
-			$this->power=$power;
-			$this->color=$color;
+			$this->name = $name;
+			$this->maxspeed = $maxspeed;
+			$this->color = $color;
+			$this->price = $price;
+			$this->sale = $sale;
 		}
-		public function  ForCarAndProduct($price)
+		public function forCar($powerhp)
 		{
-			echo $price;
+			echo $this->powerhp = $powerhp * 0.73 . 'КВт';
 		}
 }
 
 /**
  * 
  */
-class Product extends MegaCenter implements CarAndProduct
+class Product extends MegaCenter implements forProduct
 {
-	public $price;
-	public $currency;
 	
-	function __construct($name, $currency)
+	public function __construct($name, $price, $sale)
 	{
-		$this->name=$name;
-		$this->currency=$currency;
+		$this->name = $name;
+		$this->price = $price;
+		$this->sale = $sale;
 	}
 
-	public function  ForCarAndProduct($price)
+	public function ForProduct($currency)
 		{
-			if ($this->currency=='$') {
-				echo $price*63;
+			if ($currency == '$') {
+				echo $this->GetPrice() * 63 . '$';
 			} else {
-				echo $price;
+				echo $this->GetPrice();
 			}
 			
 		}
@@ -90,25 +100,44 @@ class Product extends MegaCenter implements CarAndProduct
 class Tv extends MegaCenter implements forTV
 {
 	
-	function __construct($name)
+	public function __construct($name, $price, $sale)
 	{
-		$this->name=$name;
+		$this->price = $price;
+		$this->sale = $sale;
+		$this->name = $name;
 	}
 
-	public function ForTv($price, $diagonal)
+	public function ForTv($name)
 	{
-		echo $price, $diagonal;
+		if ($name == 'LG' || $name == 'Samsung') {
+			echo 'Корейский телик';
+		} else {
+			echo 'Не знаю его происхождения, возможно япония или китай';
+		}
 	}
 }
 
 /**
  * 
  */
-class Duck extends Tv implements forDuck
+class Duck extends MegaCenter implements forDuck
 {
-	public function ForDuck($color, $weight)
+	public $country;
+	public function __construct($name, $country, $price, $sale)
 	{
-		echo $color, $weight;
+		$this->price = $price;
+		$this->sale = $sale;
+		$this->name = $name;
+	}
+	public function ForDuck($weight)
+	{
+		if ($weight <= 10) {
+			echo 'Ваша утка небольшая';
+		} elseif ($weight > 10 && $weight <=20) {
+			echo 'Ваша утка прилиных размеров';
+		} else {
+			echo 'Ну и жирная же она у вас';
+		}
 	}	
 }
 
@@ -118,42 +147,45 @@ class Duck extends Tv implements forDuck
 class Pen extends MegaCenter implements forPen
 
 {
-	
-	public function ForPen($country, $name)
+	public function __construct($name, $price, $sale)
 	{
-		echo $country, $name;
-	}
+		$this->name = $name;
+		$this->price = $price;
+		$this->sale = $sale;
+	}	
+	public function ForPen($type)
+	{?>
+		<p>Хотите узнать больше о вашей ручке, то вам <a href = URL"https://ru.wikipedia.org/wiki/%D0%A0%D1%83%D1%87%D0%BA%D0%B0_(%D0%BA%D0%B0%D0%BD%D1%86%D0%B5%D0%BB%D1%8F%D1%80%D0%B8%D1%8F)>сюда</a> </p>
+		
+	<?php }
 }
 
-$mers=new Car('Mercedes', '250km/h', '250hp', 'White');
-	echo $mers->name;
-	echo $mers->maxspeed;
-	echo $mers->power;
-	echo $mers->color;
-		$mers->ForCarAndProduct(1000000);
+$mers = new Car('Mercedes', '250km/h', 'black', 100000, 5);
+echo $mers->name;
+echo $mers->maxspeed;
+echo $mers->color;
+echo $mers->GetPrice();
+$mers->forCar(250);
 
 
-$phone=new Product('IphoneX', '$');
-	echo $phone->name;
-		$phone->ForCarAndProduct(30000);
+$phone = new Product('IphoneX', 1000, 10);
+echo $phone->name;
+$phone->ForProduct('$');
 
 
-$samsung=new Tv('Samsung');
-	echo $samsung->name;
-		$samsung->ForTv(20000, '30in');  
+$samsung = new Tv('Samsung', 20000, 5);
+echo $samsung->name;
+echo $samsung->GetPrice();
+$samsung->ForTv($samsung->name);  
 
 
-$krya=new Duck('Kryakva');
-	echo $krya->name;
-		$krya->ForDuck('White', '20kg');
+$krya = new Duck('Kryakva', 'Russian', 10000, 0);
+echo $krya->name;
+echo $krya->GetPrice();
+$krya->ForDuck(20);
 
 
-$parker=new Pen;
-	$parker->ForPen('USA', 'Parker');
-/*class Car implements MainAndAdd
-{
-	
-	public function forCar($price, $name, $power, $color){
-		echo $this -> forCar(100000, 'Mercedes', '350hp', 'white');
-	}
-}*/
+$parker = new Pen('Parker', 1000, 10);
+echo $parker->name;
+echo $parker->GetPrice();
+$parker->ForPen('Parker');
