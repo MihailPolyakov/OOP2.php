@@ -14,7 +14,7 @@
 
 class MegaCenter
 {
-	public $name;
+    public $name;
 	public $price;
 	public $sale;
 	public function GetPrice()
